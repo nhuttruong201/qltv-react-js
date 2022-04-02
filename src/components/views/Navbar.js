@@ -74,10 +74,10 @@ const Navbar = () => {
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item dropdown">
                             <a
-                                class="nav-link dropdown-toggle"
+                                className="nav-link dropdown-toggle"
                                 href="!#"
                                 role="button"
                                 data-toggle="dropdown"

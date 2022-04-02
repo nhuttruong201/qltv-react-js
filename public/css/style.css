@@ -188,3 +188,40 @@ html, body{
   left: auto !important;
   right: 0 !important;
 }
+
+.bg-light-blue {
+  background-color: #F5F7FF !important;
+}
+
+.radius {
+  border-radius: 12px !important;
+}
+
+.table td, .table th {
+  border: none;
+}
+
+h5 {
+  color: rgba(0, 0, 0, 0.7) !important;
+  color: #4B49AC !important;
+}
+
+.table-container{
+  margin-top: 25px;
+  height: calc(100vh - 320px);
+  overflow: auto;
+}
+
+.table-fix-head thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.7) !important;
+  background-color: #F5F7FF ;
+  padding: 15px 10px;
+}
+
+.table-fix-head tbody td {
+  padding-left: 10px;
+  color: rgba(0, 0, 0, 0.7);
+}

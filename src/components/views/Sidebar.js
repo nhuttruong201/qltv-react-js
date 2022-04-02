@@ -1,62 +1,99 @@
+import { NavLink } from "react-router-dom";
+
 const SideBar = () => {
     return (
         <nav className="sidebar sidebar-offcanvas" id="sidebar">
-            <ul className="nav">
-                <li className="nav-item active">
-                    <a className="nav-link" href="!#">
-                        <i class="bi bi-house-fill mr-3"></i>
+            <div className="nav">
+                <NavLink
+                    to="/"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="bi bi-house-fill mr-3"></i>
                         <span className="menu-title">Trang chủ</span>
-                    </a>
-                </li>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-cart-plus mr-3"></i>
+                <NavLink
+                    to="/muon-sach"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-cart-plus mr-3"></i>
                         <span className="menu-title">Mượn sách</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-cart-plus mr-3"></i>
+                <NavLink
+                    to="/tra-sach"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-cart-plus mr-3"></i>
                         <span className="menu-title">Trả sách</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-book mr-3"></i>
+                <NavLink
+                    to="/books"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-book mr-3"></i>
                         <span className="menu-title">Quản lý sách</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-book-reader mr-3"></i>
+                <NavLink
+                    to="/readers"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-book-reader mr-3"></i>
                         <span className="menu-title">Quản lý thẻ đọc giả</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-user mr-3"></i>
+                <NavLink
+                    to="/accounts"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-user mr-3"></i>
                         <span className="menu-title">Quản lý tài khoản</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
 
-                <li className="nav-item">
-                    <a className="nav-link" href="!#">
-                        <i class="fas fa-user-tie mr-3"></i>
+                <NavLink
+                    to="/staffs"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-user-tie mr-3"></i>
                         <span className="menu-title">Quản lý nhân viên</span>
-                        <i class="fas fa-angle-right ml-auto"></i>
-                    </a>
-                </li>
-            </ul>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
+            </div>
         </nav>
     );
 };
