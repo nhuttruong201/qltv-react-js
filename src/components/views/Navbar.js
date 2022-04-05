@@ -1,9 +1,22 @@
-const Navbar = () => {
+import { connect } from "react-redux";
+import { userLogout } from "../../redux/actions/userAction";
+
+const Navbar = (props) => {
+    const handleLogout = () => {
+        localStorage.clear();
+        props.userLogout();
+    };
+
     return (
         <nav className="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
             <div className="container-fluid">
                 <a className="navbar-brand" href="!#">
-                    Logo
+                    <img
+                        src="/img/logo.png"
+                        alt="logo"
+                        height={"40"}
+                        width={"40"}
+                    />
                 </a>
                 <button
                     className="navbar-toggler"
@@ -89,7 +102,11 @@ const Navbar = () => {
                                     height={"30"}
                                     width={"30"}
                                 />
-                                <span>Admin</span>
+                                <span>
+                                    {(props.userInfo &&
+                                        props.userInfo.username) ||
+                                        "Null"}
+                                </span>
                             </a>
 
                             <ul className="dropdown-menu">
@@ -99,9 +116,12 @@ const Navbar = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item" href="!#">
+                                    <button
+                                        className="dropdown-item"
+                                        onClick={handleLogout}
+                                    >
                                         Đăng xuất
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
                         </li>
@@ -112,4 +132,16 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.userInfo,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        userLogout: () => dispatch(userLogout()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

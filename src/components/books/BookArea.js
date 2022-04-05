@@ -1,22 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 let initListBooks = [
     { id: 1, title: "Sách 1", category: "Tiểu thuyết", total: 100 },
-    { id: 2, title: "Sách 2", category: "Tiểu thuyết", total: 100 },
-    { id: 3, title: "Sách 3", category: "Tiểu thuyết", total: 100 },
-    { id: 4, title: "Sách 4", category: "Tiểu thuyết", total: 100 },
-    { id: 1, title: "Sách 1", category: "Tiểu thuyết", total: 100 },
-    { id: 2, title: "Sách 2", category: "Tiểu thuyết", total: 100 },
-    { id: 3, title: "Sách 3", category: "Tiểu thuyết", total: 100 },
-    { id: 4, title: "Sách 4", category: "Tiểu thuyết", total: 100 },
-    { id: 1, title: "Sách 1", category: "Tiểu thuyết", total: 100 },
-    { id: 2, title: "Sách 2", category: "Tiểu thuyết", total: 100 },
+    { id: 2, title: "Sách 2", category: "Truyện", total: 100 },
     { id: 3, title: "Sách 3", category: "Tiểu thuyết", total: 100 },
     { id: 4, title: "Sách 4", category: "Tiểu thuyết", total: 100 },
 ];
 
-const BookArea = () => {
+const BookArea = (props) => {
     const [listBooks, setListBooks] = useState(initListBooks);
+
+    // console.log("check userInfo: ", props.userInfo);
+
+    const handleOnChangeSearch = (e) => {
+        let strSearch = e.target.value.toLowerCase();
+        setListBooks(
+            initListBooks.filter((item) => {
+                return (
+                    item.title.toLowerCase().includes(strSearch) ||
+                    item.category.toLowerCase().includes(strSearch)
+                );
+            })
+        );
+    };
 
     return (
         <>
@@ -29,20 +36,20 @@ const BookArea = () => {
                         <hr></hr>
                     </div>
                     <div className="col-sm-7">
-                        <button className="btn btn-primary px-3">
+                        <button className="btn btn-primary m-1 px-3">
                             <i className="fas fa-plus mr-2"></i>Thêm mới
                         </button>
                     </div>
                     <div className="col-sm-5">
-                        <div class="input-group">
+                        <div className="input-group m-1">
                             <input
                                 type="text"
-                                class="form-control"
+                                className="form-control"
                                 placeholder="Tìm sách..."
+                                onChange={(e) => handleOnChangeSearch(e)}
                             />
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    {/* Tìm */}
+                            <div className="input-group-append">
+                                <button className="btn btn-primary">
                                     <i className="fas fa-search"></i>
                                 </button>
                             </div>
@@ -52,22 +59,22 @@ const BookArea = () => {
                     <div className="col-12 mt-3">
                         <div className="bg-white radius p-3">
                             <div className="w-100 text-center">
-                                <div class="btn-group">
+                                <div className="btn-group">
                                     <button
                                         type="button"
-                                        class="btn btn-primary active"
+                                        className="btn btn-primary active"
                                     >
                                         Tất cả
                                     </button>
                                     <button
                                         type="button"
-                                        class="btn btn-primary"
+                                        className="btn btn-primary"
                                     >
                                         Đang mượn
                                     </button>
                                     <button
                                         type="button"
-                                        class="btn btn-primary"
+                                        className="btn btn-primary"
                                     >
                                         Hiện còn
                                     </button>
@@ -75,7 +82,7 @@ const BookArea = () => {
                             </div>
 
                             <div className="table-container">
-                                <table class="table table-sm table-hover table-sm-responsive table-fix-head">
+                                <table className="table table-sm table-hover table-sm-responsive table-fix-head">
                                     <thead>
                                         <tr>
                                             <th>Tiêu đề</th>
@@ -86,8 +93,8 @@ const BookArea = () => {
                                     </thead>
                                     <tbody>
                                         {listBooks &&
-                                            listBooks.map((item) => (
-                                                <tr>
+                                            listBooks.map((item, index) => (
+                                                <tr key={index}>
                                                     <td>{item.title}</td>
                                                     <td>{item.category}</td>
                                                     <td>{item.total}</td>
@@ -115,4 +122,10 @@ const BookArea = () => {
     );
 };
 
-export default BookArea;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.userInfo,
+    };
+};
+
+export default connect(mapStateToProps)(BookArea);

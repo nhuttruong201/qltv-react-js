@@ -225,3 +225,12 @@ h5 {
   padding-left: 10px;
   color: rgba(0, 0, 0, 0.7);
 }
+
+.btn-primary {
+  color: #fff;
+  background-color: #4B49AC;
+  border-color: #4B49AC;
+}
+.text-primary {
+  color: #4B49AC!important;
+}

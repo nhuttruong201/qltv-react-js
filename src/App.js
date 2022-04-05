@@ -1,37 +1,51 @@
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    useParams,
-} from "react-router-dom";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BookArea from "./components/books/BookArea";
+import Login from "./components/views/auth/Login";
+import MainContainer from "./components/views/MainContainer";
 
-import Navbar from "./components/views/Navbar";
-import SideBar from "./components/views/Sidebar";
-
-function App() {
+function App(props) {
     return (
-        <Router>
+        <BrowserRouter>
             <Switch>
-                <div className="container-fluid m-0 p-0 h-100">
-                    <Navbar />
-                    <div className="row h-100">
-                        <div className="col-md-4 col-lg-3 d-none d-sm-none d-md-block h-100">
-                            <SideBar />
-                        </div>
-                        <div className="col-12 col-md-8 col-lg-9 bg-light-blue">
-                            <Route exact path="/">
+                <Route exact path="/login">
+                    <Login />
+                </Route>
+
+                <MainContainer>
+                    <Route
+                        exact
+                        path="/"
+                        render={() =>
+                            props.isLoggedIn ? (
                                 <h1>Home</h1>
-                            </Route>
-                            <Route exact path="/books">
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/books"
+                        render={() =>
+                            props.isLoggedIn ? (
                                 <BookArea />
-                            </Route>
-                        </div>
-                    </div>
-                </div>
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+                </MainContainer>
             </Switch>
-        </Router>
+        </BrowserRouter>
     );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        isLoggedIn: state.isLoggedIn,
+    };
+};
+
+export default connect(mapStateToProps)(App);
