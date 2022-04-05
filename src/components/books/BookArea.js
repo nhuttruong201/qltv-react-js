@@ -1,15 +1,16 @@
+import { type } from "@testing-library/user-event/dist/type";
+import axios from "../../configs/axios";
+
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-
-let initListBooks = [
-    { id: 1, title: "Sách 1", category: "Tiểu thuyết", total: 100 },
-    { id: 2, title: "Sách 2", category: "Truyện", total: 100 },
-    { id: 3, title: "Sách 3", category: "Tiểu thuyết", total: 100 },
-    { id: 4, title: "Sách 4", category: "Tiểu thuyết", total: 100 },
-];
+import ModalAddNewBook from "./modals/ModalAddNewBook";
 
 const BookArea = (props) => {
-    const [listBooks, setListBooks] = useState(initListBooks);
+    const [isLoading, setIsLoading] = useState(true);
+    const [initListBooks, setInitListBooks] = useState([]);
+    const [listBooks, setListBooks] = useState([]);
+    const [typeView, setTypeView] = useState("all");
+    const [showModalAddNewBook, setShowModalAddNewBook] = useState(false);
 
     // console.log("check userInfo: ", props.userInfo);
 
@@ -18,15 +19,104 @@ const BookArea = (props) => {
         setListBooks(
             initListBooks.filter((item) => {
                 return (
-                    item.title.toLowerCase().includes(strSearch) ||
-                    item.category.toLowerCase().includes(strSearch)
+                    item.tensach.toLowerCase().includes(strSearch) ||
+                    item.tentheloai.toLowerCase().includes(strSearch) ||
+                    String(item.namxuatban).includes(strSearch)
                 );
             })
         );
     };
 
+    const handleShowModal = (modalName) => {
+        if (modalName === "ADD_NEW_BOOK") {
+            setShowModalAddNewBook(true);
+        }
+    };
+
+    const handleCloseModal = (modalName) => {
+        if (modalName === "ADD_NEW_BOOK") {
+            setShowModalAddNewBook(false);
+        }
+    };
+
+    const handleAddNewBookSucceed = (newBook) => {
+        // alert("handleAddNewBookSucceed");
+        console.log(
+            ">>> check newBook from handleAddNewBookSucceed: ",
+            newBook
+        );
+        setShowModalAddNewBook(false);
+        setInitListBooks((initListBooks) => [...initListBooks, newBook]);
+        setListBooks((listBooks) => [...listBooks, newBook]);
+    };
+
+    const handleChangeTypeView = (typeView) => {
+        fetchData(typeView);
+        setTypeView(typeView);
+    };
+
+    const fetchData = async (type) => {
+        let url = null;
+        if (type === "all") url = "/api/books";
+        if (type === "borrowed") url = "/api/books/borrowed";
+        if (type === "remaining") url = "/api/books/remaining";
+
+        console.log(">>> check url from fetchData: ", url);
+
+        setIsLoading(true);
+
+        await axios({
+            method: "get",
+            url: "/api/books",
+            headers: { username: localStorage.getItem("username") },
+        })
+            .then((res) => {
+                console.log(res);
+
+                setTimeout(() => {
+                    setInitListBooks(res.data);
+                    setListBooks(res.data);
+                    setIsLoading(false);
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios({
+                method: "get",
+                url: "/api/books",
+                headers: { username: localStorage.getItem("username") },
+            })
+                .then((res) => {
+                    console.log(res);
+
+                    setTimeout(() => {
+                        setInitListBooks(res.data);
+                        setListBooks(res.data);
+                        setIsLoading(false);
+                    }, 1000);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        };
+
+        fetchData();
+    }, []);
+
     return (
         <>
+            {showModalAddNewBook && (
+                <ModalAddNewBook
+                    isSucceed={handleAddNewBookSucceed}
+                    isClose={handleCloseModal}
+                />
+            )}
+
             <div className="container py-3">
                 <div className="row">
                     <div className="col-12">
@@ -36,7 +126,10 @@ const BookArea = (props) => {
                         <hr></hr>
                     </div>
                     <div className="col-sm-7">
-                        <button className="btn btn-primary m-1 px-3">
+                        <button
+                            className="btn btn-primary m-1 px-3"
+                            onClick={() => handleShowModal("ADD_NEW_BOOK")}
+                        >
                             <i className="fas fa-plus mr-2"></i>Thêm mới
                         </button>
                     </div>
@@ -62,19 +155,39 @@ const BookArea = (props) => {
                                 <div className="btn-group">
                                     <button
                                         type="button"
-                                        className="btn btn-primary active"
+                                        className={
+                                            "btn btn-primary " +
+                                            (typeView === "all" && "active")
+                                        }
+                                        onClick={() =>
+                                            handleChangeTypeView("all")
+                                        }
                                     >
                                         Tất cả
                                     </button>
                                     <button
                                         type="button"
-                                        className="btn btn-primary"
+                                        className={
+                                            "btn btn-primary " +
+                                            (typeView === "borrowed" &&
+                                                "active")
+                                        }
+                                        onClick={() =>
+                                            handleChangeTypeView("borrowed")
+                                        }
                                     >
                                         Đang mượn
                                     </button>
                                     <button
                                         type="button"
-                                        className="btn btn-primary"
+                                        className={
+                                            "btn btn-primary " +
+                                            (typeView === "remaining" &&
+                                                "active")
+                                        }
+                                        onClick={() =>
+                                            handleChangeTypeView("remaining")
+                                        }
                                     >
                                         Hiện còn
                                     </button>
@@ -85,19 +198,35 @@ const BookArea = (props) => {
                                 <table className="table table-sm table-hover table-sm-responsive table-fix-head">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Tiêu đề</th>
                                             <th>Thể loại</th>
+                                            <th>Năm xuất bản</th>
                                             <th>Số lượng</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {listBooks &&
+                                        {isLoading && (
+                                            <tr>
+                                                <td
+                                                    colSpan="5"
+                                                    className="text-center"
+                                                >
+                                                    Đang tải dữ liệu...
+                                                </td>
+                                            </tr>
+                                        )}
+
+                                        {!isLoading &&
+                                            listBooks &&
                                             listBooks.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td>{item.title}</td>
-                                                    <td>{item.category}</td>
-                                                    <td>{item.total}</td>
+                                                    <td>{index + 1}</td>
+                                                    <td>{item.tensach}</td>
+                                                    <td>{item.tentheloai}</td>
+                                                    <td>{item.namxuatban}</td>
+                                                    <td>{item.soluong}</td>
                                                     <td>
                                                         <button className="btn btn-sm btn-success m-1">
                                                             <i className="fas fa-eye"></i>
