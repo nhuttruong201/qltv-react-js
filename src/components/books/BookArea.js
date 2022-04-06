@@ -39,15 +39,13 @@ const BookArea = (props) => {
         }
     };
 
-    const handleAddNewBookSucceed = (newBook) => {
+    const handleAddNewBookSucceed = (newListBooks) => {
         // alert("handleAddNewBookSucceed");
-        console.log(
-            ">>> check newBook from handleAddNewBookSucceed: ",
-            newBook
-        );
+
+        console.log(">>> handleAddNewBookSucceed: ", newListBooks);
         setShowModalAddNewBook(false);
-        setInitListBooks((initListBooks) => [...initListBooks, newBook]);
-        setListBooks((listBooks) => [...listBooks, newBook]);
+        setInitListBooks(newListBooks);
+        setListBooks(newListBooks);
     };
 
     const handleChangeTypeView = (typeView) => {
@@ -93,10 +91,11 @@ const BookArea = (props) => {
             })
                 .then((res) => {
                     console.log(res);
+                    const data = res.data.reverse();
 
                     setTimeout(() => {
-                        setInitListBooks(res.data);
-                        setListBooks(res.data);
+                        setInitListBooks(data);
+                        setListBooks(data);
                         setIsLoading(false);
                     }, 1000);
                 })

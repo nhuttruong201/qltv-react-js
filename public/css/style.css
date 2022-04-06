@@ -234,3 +234,8 @@ h5 {
 .text-primary {
   color: #4B49AC!important;
 }
+
+.form-group input,
+.form-group select {
+  background-color: #F5F7FF;
+}
