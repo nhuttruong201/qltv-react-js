@@ -4,6 +4,7 @@ import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ModalAddNewBook from "./modals/ModalAddNewBook";
+import ModalEditBook from "./modals/ModalEditBook";
 
 const BookArea = (props) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -11,6 +12,9 @@ const BookArea = (props) => {
     const [listBooks, setListBooks] = useState([]);
     const [typeView, setTypeView] = useState("all");
     const [showModalAddNewBook, setShowModalAddNewBook] = useState(false);
+    const [showModalEditBook, setShowModalEditBook] = useState(false);
+
+    const [dataEditBook, setDataEditBook] = useState({});
 
     // console.log("check userInfo: ", props.userInfo);
 
@@ -27,6 +31,11 @@ const BookArea = (props) => {
         );
     };
 
+    const handleShowModalEditBook = (bookEdit) => {
+        setShowModalEditBook(true);
+        setDataEditBook(bookEdit);
+    };
+
     const handleShowModal = (modalName) => {
         if (modalName === "ADD_NEW_BOOK") {
             setShowModalAddNewBook(true);
@@ -36,6 +45,9 @@ const BookArea = (props) => {
     const handleCloseModal = (modalName) => {
         if (modalName === "ADD_NEW_BOOK") {
             setShowModalAddNewBook(false);
+        }
+        if (modalName === "EDIT_BOOK") {
+            setShowModalEditBook(false);
         }
     };
 
@@ -113,6 +125,14 @@ const BookArea = (props) => {
                 <ModalAddNewBook
                     isSucceed={handleAddNewBookSucceed}
                     isClose={handleCloseModal}
+                />
+            )}
+
+            {showModalEditBook && (
+                <ModalEditBook
+                    title="Sửa sách"
+                    isClose={handleCloseModal}
+                    data={dataEditBook}
                 />
             )}
 
@@ -199,8 +219,8 @@ const BookArea = (props) => {
                                         <tr>
                                             <th>#</th>
                                             <th>Tiêu đề</th>
+                                            <th>Tác giả</th>
                                             <th>Thể loại</th>
-                                            <th>Năm xuất bản</th>
                                             <th>Số lượng</th>
                                             <th></th>
                                         </tr>
@@ -209,7 +229,7 @@ const BookArea = (props) => {
                                         {isLoading && (
                                             <tr>
                                                 <td
-                                                    colSpan="5"
+                                                    colSpan="6"
                                                     className="text-center"
                                                 >
                                                     Đang tải dữ liệu...
@@ -223,14 +243,28 @@ const BookArea = (props) => {
                                                 <tr key={index}>
                                                     <td>{index + 1}</td>
                                                     <td>{item.tensach}</td>
-                                                    <td>{item.tentheloai}</td>
-                                                    <td>{item.namxuatban}</td>
+                                                    <td>
+                                                        {item.tacgia.tentacgia}
+                                                    </td>
+                                                    <td>
+                                                        {
+                                                            item.theloai
+                                                                .tentheloai
+                                                        }
+                                                    </td>
                                                     <td>{item.soluong}</td>
                                                     <td>
                                                         <button className="btn btn-sm btn-success m-1">
                                                             <i className="fas fa-eye"></i>
                                                         </button>
-                                                        <button className="btn btn-sm btn-primary m-1">
+                                                        <button
+                                                            className="btn btn-sm btn-primary m-1"
+                                                            onClick={() =>
+                                                                handleShowModalEditBook(
+                                                                    item
+                                                                )
+                                                            }
+                                                        >
                                                             <i className="fas fa-pen"></i>
                                                         </button>
                                                         <button className="btn btn-sm btn-danger m-1">

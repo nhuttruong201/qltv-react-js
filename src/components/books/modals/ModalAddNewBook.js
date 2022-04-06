@@ -13,7 +13,7 @@ const ModalAddNewBook = (props) => {
     const [authorInput, setAuthorInput] = useState("");
     const [categoryInput, setCategoryInput] = useState("");
     const [publisherInput, setPublisherInput] = useState("");
-    const [yearOfPublication, setYearOfPublication] = useState("");
+    const [yearOfPublication, setYearOfPublication] = useState(0);
     const [totalInput, setTotalInput] = useState(0);
 
     const handleAddNew = async () => {
@@ -53,16 +53,6 @@ const ModalAddNewBook = (props) => {
             .catch((err) => {
                 console.log("handleAddNew: ", err);
             });
-
-        // // when succeed
-        // let newBook = {
-        //     masach: 2,
-        //     tensach: "Truyện Kiều",
-        //     soluong: 100,
-        //     namxuatban: 2022,
-        //     tentheloai: "Truyện",
-        // };
-        // props.isSucceed(newBook);
     };
 
     useEffect(() => {
@@ -73,7 +63,7 @@ const ModalAddNewBook = (props) => {
                 headers: { username: localStorage.getItem("username") },
             })
                 .then((res) => {
-                    console.log("fetchDataBookInfo: ", res);
+                    // console.log("fetchDataBookInfo: ", res);
                     setAuthors(res.data.authors);
                     setCategories(res.data.categories);
                     setPublishers(res.data.publishers);
@@ -123,7 +113,7 @@ const ModalAddNewBook = (props) => {
                                     onChange={(e) =>
                                         setTitleInput(e.target.value)
                                     }
-                                    placeholder={"nhập tên sách..."}
+                                    placeholder={"tên sách..."}
                                     maxLength={255}
                                     required
                                     className="form-control"
@@ -136,8 +126,7 @@ const ModalAddNewBook = (props) => {
                                 <label>Tác giả</label>
                                 <select
                                     className="form-control"
-                                    // value={authorInput}
-                                    defaultValue={authorInput}
+                                    value={authorInput}
                                     onChange={(e) =>
                                         setAuthorInput(e.target.value)
                                     }
@@ -159,7 +148,6 @@ const ModalAddNewBook = (props) => {
                                 <label>Thể loại</label>
                                 <select
                                     className="form-control"
-                                    // value={categoryInput}
                                     defaultValue={categoryInput}
                                     onChange={(e) =>
                                         setCategoryInput(e.target.value)
@@ -182,7 +170,6 @@ const ModalAddNewBook = (props) => {
                                 <label>Nhà xuất bản</label>
                                 <select
                                     className="form-control"
-                                    // value={publisherInput}
                                     defaultValue={publisherInput}
                                     onChange={(e) =>
                                         setPublisherInput(e.target.value)
@@ -211,7 +198,7 @@ const ModalAddNewBook = (props) => {
                                     }
                                     min={"2000"}
                                     max={"2022"}
-                                    placeholder="nhập năm xuất bản..."
+                                    placeholder="năm xuất bản..."
                                     className="form-control"
                                 />
                             </div>
@@ -226,7 +213,8 @@ const ModalAddNewBook = (props) => {
                                         setTotalInput(e.target.value)
                                     }
                                     min={"1"}
-                                    placeholder="nhập số lượng..."
+                                    max={"1000"}
+                                    placeholder="số lượng..."
                                     className="form-control"
                                 />
                             </div>
