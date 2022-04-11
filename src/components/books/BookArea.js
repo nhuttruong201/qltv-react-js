@@ -1,10 +1,8 @@
-import { type } from "@testing-library/user-event/dist/type";
 import axios from "../../configs/axios";
 
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import ModalAddNewBook from "./modals/ModalAddNewBook";
-import ModalEditBook from "./modals/ModalEditBook";
+import ModalBook from "./modals/ModalBook";
 
 const BookArea = (props) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -24,8 +22,9 @@ const BookArea = (props) => {
             initListBooks.filter((item) => {
                 return (
                     item.tensach.toLowerCase().includes(strSearch) ||
-                    item.tentheloai.toLowerCase().includes(strSearch) ||
-                    String(item.namxuatban).includes(strSearch)
+                    item.theloai.tentheloai.toLowerCase().includes(strSearch) ||
+                    item.tacgia.tentacgia.toLowerCase().includes(strSearch) ||
+                    String(item.soluong).includes(strSearch)
                 );
             })
         );
@@ -53,9 +52,15 @@ const BookArea = (props) => {
 
     const handleAddNewBookSucceed = (newListBooks) => {
         // alert("handleAddNewBookSucceed");
-
         console.log(">>> handleAddNewBookSucceed: ", newListBooks);
         setShowModalAddNewBook(false);
+        setInitListBooks(newListBooks);
+        setListBooks(newListBooks);
+    };
+    const handleEditBookSucceed = (newListBooks) => {
+        // alert("handleEditBookSucceed");
+        console.log(">>> handleEditBookSucceed: ", newListBooks);
+        setShowModalEditBook(false);
         setInitListBooks(newListBooks);
         setListBooks(newListBooks);
     };
@@ -81,7 +86,7 @@ const BookArea = (props) => {
             headers: { username: localStorage.getItem("username") },
         })
             .then((res) => {
-                console.log(res);
+                console.log("fetchData: ", res);
 
                 setTimeout(() => {
                     setInitListBooks(res.data);
@@ -102,7 +107,7 @@ const BookArea = (props) => {
                 headers: { username: localStorage.getItem("username") },
             })
                 .then((res) => {
-                    console.log(res);
+                    console.log("useEffect fetchData: ", res);
                     const data = res.data.reverse();
 
                     setTimeout(() => {
@@ -122,15 +127,24 @@ const BookArea = (props) => {
     return (
         <>
             {showModalAddNewBook && (
-                <ModalAddNewBook
+                // <ModalAddNewBook
+                //     isSucceed={handleAddNewBookSucceed}
+                //     isClose={handleCloseModal}
+                // />
+                <ModalBook
+                    type="ADD_NEW_BOOK"
+                    title="Thêm sách"
                     isSucceed={handleAddNewBookSucceed}
                     isClose={handleCloseModal}
+                    // data={dataEditBook}
                 />
             )}
 
             {showModalEditBook && (
-                <ModalEditBook
+                <ModalBook
+                    type="EDIT_BOOK"
                     title="Sửa sách"
+                    isSucceed={handleEditBookSucceed}
                     isClose={handleCloseModal}
                     data={dataEditBook}
                 />
@@ -221,7 +235,7 @@ const BookArea = (props) => {
                                             <th>Tiêu đề</th>
                                             <th>Tác giả</th>
                                             <th>Thể loại</th>
-                                            <th>Số lượng</th>
+                                            <th>SL</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -267,9 +281,9 @@ const BookArea = (props) => {
                                                         >
                                                             <i className="fas fa-pen"></i>
                                                         </button>
-                                                        <button className="btn btn-sm btn-danger m-1">
+                                                        {/* <button className="btn btn-sm btn-danger m-1">
                                                             <i className="fas fa-trash-alt"></i>
-                                                        </button>
+                                                        </button> */}
                                                     </td>
                                                 </tr>
                                             ))}

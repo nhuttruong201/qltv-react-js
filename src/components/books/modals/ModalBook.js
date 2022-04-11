@@ -12,39 +12,74 @@ import { ModalBody, ModalFooter, ModalHeader } from "reactstrap";
     Số lượng
      */
 
-const ModalEditBook = (props) => {
+const ModalBook = (props) => {
+    const [errMsg, setErrMsg] = useState(null);
     const [authors, setAuthors] = useState([]);
     const [categories, setCategories] = useState([]);
     const [publishers, setPublishers] = useState([]);
 
-    const [titleInput, setTitleInput] = useState("");
-    const [authorInput, setAuthorInput] = useState("");
-    const [categoryInput, setCategoryInput] = useState("");
-    const [publisherInput, setPublisherInput] = useState("");
-    const [yearOfPublication, setYearOfPublication] = useState(0);
-    const [totalInput, setTotalInput] = useState(0);
+    const [titleInput, setTitleInput] = useState(
+        props.data ? props.data.tensach : ""
+    );
+    const [authorInput, setAuthorInput] = useState(
+        props.data ? props.data.tacgia.matacgia : ""
+    );
+    const [categoryInput, setCategoryInput] = useState(
+        props.data ? props.data.theloai.matheloai : ""
+    );
+    const [publisherInput, setPublisherInput] = useState(
+        props.data ? props.data.nhaxuatban.manxb : ""
+    );
+    const [yearOfPublication, setYearOfPublication] = useState(
+        props.data ? props.data.namxuatban : 0
+    );
+    const [totalInput, setTotalInput] = useState(
+        props.data ? props.data.soluong : 0
+    );
 
-    const [errMsg, setErrMsg] = useState(null);
+    console.log(">> check prop data from Modal: ", props.data);
 
-    console.log(">> check prop data: ", props.data);
+    const handleSubmit = async () => {
+        if (
+            !titleInput ||
+            !authorInput ||
+            !categoryInput ||
+            !publisherInput ||
+            !yearOfPublication
+        ) {
+            setErrMsg("Bạn chưa nhập đủ thông tin!");
+            setTimeout(() => {
+                setErrMsg(null);
+            }, 3000);
+            return;
+        }
 
-    useEffect(() => {
-        let {
-            masach,
-            tensach,
-            tacgia,
-            theloai,
-            nhaxuatban,
-            namxuatban,
-            soluong,
-        } = props.data;
-        setTitleInput(tensach);
-        setAuthorInput(tacgia.matacgia);
-        setCategoryInput(theloai.matheloai);
-        setPublisherInput(nhaxuatban.manxb);
-        setYearOfPublication(namxuatban);
-        setTotalInput(soluong);
-    }, [props]);
+        await axios({
+            method: "post",
+            url: `/api/books/${
+                props.type === "ADD_NEW_BOOK" ? "add-new" : "edit-book"
+            }`,
+            headers: {
+                username: localStorage.getItem("username"),
+            },
+            data: {
+                masach: props.data ? props.data.masach : 0,
+                tensach: titleInput,
+                matacgia: authorInput,
+                matheloai: categoryInput,
+                manxb: publisherInput,
+                namxuatban: yearOfPublication,
+                soluong: totalInput,
+            },
+        })
+            .then((res) => {
+                console.log("handleSubmit: ", res.data);
+                props.isSucceed(res.data.reverse());
+            })
+            .catch((err) => {
+                console.log("handleSubmit: ", err);
+            });
+    };
 
     useEffect(() => {
         const fetchDataBookInfo = async () => {
@@ -59,15 +94,19 @@ const ModalEditBook = (props) => {
                     setCategories(res.data.categories);
                     setPublishers(res.data.publishers);
 
-                    // setAuthorInput(
-                    //     res.data.authors && res.data.authors[0].matacgia
-                    // );
-                    // setCategoryInput(
-                    //     res.data.categories && res.data.categories[0].matheloai
-                    // );
-                    // setPublisherInput(
-                    //     res.data.publishers && res.data.publishers[0].manxb
-                    // );
+                    if (props.type === "ADD_NEW_BOOK") {
+                        // * khởi tạo giá trị input
+                        setAuthorInput(
+                            res.data.authors && res.data.authors[0].matacgia
+                        );
+                        setCategoryInput(
+                            res.data.categories &&
+                                res.data.categories[0].matheloai
+                        );
+                        setPublisherInput(
+                            res.data.publishers && res.data.publishers[0].manxb
+                        );
+                    }
                 })
                 .catch((err) => {
                     console.log("fetchDataBookInfo: ", err);
@@ -104,8 +143,8 @@ const ModalEditBook = (props) => {
                         <div className="form-group">
                             <label>Tác giả</label>
                             <select
+                                value={authorInput}
                                 className="form-control"
-                                defaultValue={authorInput}
                                 onChange={(e) => setAuthorInput(e.target.value)}
                             >
                                 {authors &&
@@ -125,30 +164,20 @@ const ModalEditBook = (props) => {
                             <label>Thể loại</label>
                             <select
                                 className="form-control"
-                                // defaultValue={categoryInput}
+                                value={categoryInput}
                                 onChange={(e) =>
                                     setCategoryInput(e.target.value)
                                 }
                             >
                                 {categories &&
-                                    categories.map((item, index) =>
-                                        item.matheloai === categoryInput ? (
-                                            <option
-                                                key={index}
-                                                value={item.matheloai}
-                                                selected
-                                            >
-                                                {item.tentheloai}
-                                            </option>
-                                        ) : (
-                                            <option
-                                                key={index}
-                                                value={item.matheloai}
-                                            >
-                                                {item.tentheloai}
-                                            </option>
-                                        )
-                                    )}
+                                    categories.map((item, index) => (
+                                        <option
+                                            key={index}
+                                            value={item.matheloai}
+                                        >
+                                            {item.tentheloai}
+                                        </option>
+                                    ))}
                             </select>
                         </div>
                     </div>
@@ -157,7 +186,7 @@ const ModalEditBook = (props) => {
                             <label>Nhà xuất bản</label>
                             <select
                                 className="form-control"
-                                defaultValue={publisherInput}
+                                value={publisherInput}
                                 onChange={(e) =>
                                     setPublisherInput(e.target.value)
                                 }
@@ -206,13 +235,13 @@ const ModalEditBook = (props) => {
             <ModalFooter>
                 <button
                     className="btn btn-primary btn-sm px-4"
-                    // onClick={() => handleEdit()}
+                    onClick={() => handleSubmit()}
                 >
                     Cập nhật
                 </button>{" "}
                 <button
                     className="btn btn-secondary btn-sm"
-                    onClick={() => props.isClose("EDIT_BOOK")}
+                    onClick={() => props.isClose(props.type)}
                 >
                     Đóng
                 </button>
@@ -221,4 +250,4 @@ const ModalEditBook = (props) => {
     );
 };
 
-export default ModalEditBook;
+export default ModalBook;
