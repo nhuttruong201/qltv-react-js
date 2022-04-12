@@ -43,6 +43,19 @@ const SideBar = () => {
                 </NavLink>
 
                 <NavLink
+                    to="/quan-ly-phieu-muon"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-id-card-alt mr-3"></i>
+                        <span className="menu-title">Quản lý phiếu mượn</span>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
+
+                <NavLink
                     to="/books"
                     exact={true}
                     className="nav-item"
@@ -63,7 +76,7 @@ const SideBar = () => {
                 >
                     <span className="nav-link">
                         <i className="fas fa-book-reader mr-3"></i>
-                        <span className="menu-title">Quản lý thẻ đọc giả</span>
+                        <span className="menu-title">Quản lý thẻ độc giả</span>
                         <i className="fas fa-angle-right ml-auto"></i>
                     </span>
                 </NavLink>
