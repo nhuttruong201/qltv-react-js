@@ -64,6 +64,30 @@ function App(props) {
                             )
                         }
                     />
+
+                    <Route
+                        exact
+                        path="/muon-sach"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <MuonSach />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+
+                    <Route
+                        exact
+                        path="/tra-sach"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <TraSach />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
                 </MainContainer>
             </Switch>
         </BrowserRouter>
