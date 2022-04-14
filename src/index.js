@@ -6,14 +6,21 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import userReducer from "./redux/reducers/userReducer";
+import axios from "./configs/axios";
 
 const store = createStore(userReducer);
 
-const userLogin = localStorage.getItem("username");
+const userLogin = localStorage.getItem("userLogin");
+
 if (userLogin) {
+    let username = userLogin.split(" ")[0];
+    let userId = userLogin.split(" ")[1];
     store.dispatch({
         type: "AUTHENTICATE_THE_USER",
-        userInfo: { username: userLogin },
+        userInfo: {
+            username,
+            userId,
+        },
     });
 }
 

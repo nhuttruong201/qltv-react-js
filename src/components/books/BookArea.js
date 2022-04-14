@@ -18,7 +18,7 @@ const BookArea = (props) => {
 
     const [dataEditBook, setDataEditBook] = useState({});
 
-    // console.log("check userInfo: ", props.userInfo);
+    console.log("check userInfo: ", props.userInfo);
 
     const handleOnChangeSearch = (e) => {
         let strSearch = e.target.value.toLowerCase();

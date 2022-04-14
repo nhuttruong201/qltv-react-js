@@ -1,6 +1,7 @@
 import axios from "../../../configs/axios";
 import { useEffect, useState } from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { connect } from "react-redux";
 
 const ModalCreateBill = (props) => {
     let { readerId, fullName, gender, phoneNumber } = props.readerInfo;
@@ -127,7 +128,7 @@ const ModalCreateBill = (props) => {
             headers: { username: localStorage.getItem("username") },
             data: {
                 mathe: readerId,
-                manhanvien: 1,
+                manhanvien: props.userInfo.userId,
                 billInfo: billInfo,
             },
         })
@@ -139,6 +140,8 @@ const ModalCreateBill = (props) => {
                 console.log("handleCreateBill ERR: ", err);
             });
     };
+
+    console.log("userInfo create bill: ", props.userInfo);
 
     return (
         <>
@@ -299,4 +302,10 @@ const ModalCreateBill = (props) => {
     );
 };
 
-export default ModalCreateBill;
+const mapStateToProps = (state) => {
+    return {
+        userInfo: state.userInfo,
+    };
+};
+
+export default connect(mapStateToProps)(ModalCreateBill);

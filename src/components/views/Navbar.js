@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { userLogout } from "../../redux/actions/userAction";
 
 const Navbar = (props) => {
@@ -32,25 +33,28 @@ const Navbar = (props) => {
                 >
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="!#">
+                            {/* <a className="nav-link" href="!#">
                                 Trang chủ
-                            </a>
+                            </a> */}
+                            <Link to={"/"} className="nav-link">
+                                Trang chủ
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="!#">
+                            <Link to={"/"} className="nav-link">
                                 Làm thẻ
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="!#">
+                            <Link to={"/muon-sach"} className="nav-link">
                                 Mượn sách
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link" href="!#">
+                            <Link to={"/tra-sach"} className="nav-link">
                                 Trả sách
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="nav-item dropdown">
@@ -64,24 +68,40 @@ const Navbar = (props) => {
                             </a>
                             <ul className="dropdown-menu">
                                 <li>
-                                    <a className="dropdown-item" href="!#">
+                                    <Link
+                                        to={"/quan-ly-phieu-muon"}
+                                        className="dropdown-item"
+                                    >
+                                        Quản lý phiếu mượn
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={"/books"}
+                                        className="dropdown-item"
+                                    >
                                         Quản lý sách
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item" href="!#">
-                                        Quản lý thẻ đọc giả
-                                    </a>
+                                    <Link to={"/"} className="dropdown-item">
+                                        Quản lý thẻ độc giả
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item" href="!#">
+                                    <Link to={"/"} className="dropdown-item">
+                                        Quản lý tác giả
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={"/"} className="dropdown-item">
+                                        Quản lý thể loại
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={"/"} className="dropdown-item">
                                         Quản lý tài khoản
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="dropdown-item" href="!#">
-                                        Quản lý nhân viên
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </li>
