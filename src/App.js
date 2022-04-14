@@ -1,8 +1,13 @@
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import BillArea from "./components/bills/BillArea";
 import BookArea from "./components/books/BookArea";
+
 import ReadersArea from "./components/readers/ReaderArea";
+import MuonSach from "./components/books/MuonSach";
+import TraSach from "./components/books/TraSach";
+
 import Login from "./components/views/auth/Login";
 import MainContainer from "./components/views/MainContainer";
 
@@ -48,17 +53,17 @@ function App(props) {
                             )
                         }
                     />
-                    {/* <Route
+                    <Route
                         exact
-                        path="/accounts"
+                        path="/quan-ly-phieu-muon"
                         render={() =>
                             props.isLoggedIn ? (
-                                <ReadersArea />
+                                <BillArea />
                             ) : (
                                 <Redirect to={"/login"} />
                             )
                         }
-                    /> */}
+                    />
                 </MainContainer>
             </Switch>
         </BrowserRouter>

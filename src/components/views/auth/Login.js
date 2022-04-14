@@ -31,11 +31,19 @@ const Login = (props) => {
                 matkhau: password,
             })
             .then((res) => {
-                console.log(res.data);
+                console.log("login res data: ", res.data);
 
                 if (res.data.status === 200) {
-                    props.userLoginSuccess({ username, password });
+                    props.userLoginSuccess({
+                        username: res.data.data.email,
+                        userId: res.data.data.manhanvien,
+                    });
                     localStorage.setItem("username", username);
+                    localStorage.setItem(
+                        "userLogin",
+                        username + " " + res.data.data.manhanvien
+                    );
+
                     history.replace("/");
 
                     return;
