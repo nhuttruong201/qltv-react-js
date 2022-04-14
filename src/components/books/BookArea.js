@@ -30,11 +30,6 @@ const BookArea = (props) => {
         );
     };
 
-    const handleShowModalEditBook = (bookEdit) => {
-        setShowModalEditBook(true);
-        setDataEditBook(bookEdit);
-    };
-
     const handleShowModal = (modalName) => {
         if (modalName === "ADD_NEW_BOOK") {
             setShowModalAddNewBook(true);
@@ -50,6 +45,10 @@ const BookArea = (props) => {
         }
     };
 
+    const handleShowModalEditBook = (bookEdit) => {
+        setShowModalEditBook(true);
+        setDataEditBook(bookEdit);
+    };
     const handleAddNewBookSucceed = (newListBooks) => {
         // alert("handleAddNewBookSucceed");
         console.log(">>> handleAddNewBookSucceed: ", newListBooks);
@@ -98,7 +97,6 @@ const BookArea = (props) => {
                 console.log(err);
             });
     };
-
     useEffect(() => {
         const fetchData = async () => {
             await axios({

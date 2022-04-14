@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BookArea from "./components/books/BookArea";
+import ReadersArea from "./components/readers/ReaderArea";
 import Login from "./components/views/auth/Login";
 import MainContainer from "./components/views/MainContainer";
 
@@ -36,6 +37,28 @@ function App(props) {
                             )
                         }
                     />
+                    <Route
+                        exact
+                        path="/readers"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <ReadersArea />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+                    {/* <Route
+                        exact
+                        path="/accounts"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <ReadersArea />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    /> */}
                 </MainContainer>
             </Switch>
         </BrowserRouter>
