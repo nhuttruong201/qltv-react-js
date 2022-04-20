@@ -93,6 +93,42 @@ const SideBar = () => {
                         <i className="fas fa-angle-right ml-auto"></i>
                     </span>
                 </NavLink>
+                <NavLink
+                    to="/authors"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-user-tie mr-3"></i>
+                        <span className="menu-title">Quản lý tác giả</span>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
+                <NavLink
+                    to="/categories"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fab fa-elementor mr-3"></i>
+                        <span className="menu-title">Quản lý thể loại</span>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
+                <NavLink
+                    to="/publishers"
+                    exact={true}
+                    className="nav-item"
+                    activeClassName="active"
+                >
+                    <span className="nav-link">
+                        <i className="fas fa-landmark mr-3"></i>
+                        <span className="menu-title">Quản lý nhà xuất bản</span>
+                        <i className="fas fa-angle-right ml-auto"></i>
+                    </span>
+                </NavLink>
             </div>
         </nav>
     );

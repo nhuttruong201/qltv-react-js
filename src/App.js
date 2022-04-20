@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BookArea from "./components/books/BookArea";
+import AuthorArea from "./components/authors/AuthorArea";
 import Login from "./components/views/auth/Login";
 import MainContainer from "./components/views/MainContainer";
 
@@ -31,6 +32,17 @@ function App(props) {
                         render={() =>
                             props.isLoggedIn ? (
                                 <BookArea />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/authors"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <AuthorArea />
                             ) : (
                                 <Redirect to={"/login"} />
                             )

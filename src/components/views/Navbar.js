@@ -83,6 +83,21 @@ const Navbar = (props) => {
                                         Quản lý nhân viên
                                     </a>
                                 </li>
+                                <li>
+                                    <a className="dropdown-item" href="!#">
+                                        Quản lý tác giả
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="dropdown-item" href="!#">
+                                        Quản lý thể loại
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="dropdown-item" href="!#">
+                                        Quản lý nhà xuất bản
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
