@@ -3,18 +3,22 @@ import axios from "../../configs/axios";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ModalBook from "./modals/ModalBook";
+import ModalViewBookDetail from "./modals/ModalViewBookDetail";
 
 const BookArea = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [initListBooks, setInitListBooks] = useState([]);
     const [listBooks, setListBooks] = useState([]);
     const [typeView, setTypeView] = useState("all");
+    const [bookDetail, setBookDetail] = useState({});
+    const [showModalViewBookDetail, setShowModalViewBookDetail] =
+        useState(false);
     const [showModalAddNewBook, setShowModalAddNewBook] = useState(false);
     const [showModalEditBook, setShowModalEditBook] = useState(false);
 
     const [dataEditBook, setDataEditBook] = useState({});
 
-    // console.log("check userInfo: ", props.userInfo);
+    console.log("check userInfo: ", props.userInfo);
 
     const handleOnChangeSearch = (e) => {
         let strSearch = e.target.value.toLowerCase();
@@ -28,11 +32,6 @@ const BookArea = (props) => {
                 );
             })
         );
-    };
-
-    const handleShowModalEditBook = (bookEdit) => {
-        setShowModalEditBook(true);
-        setDataEditBook(bookEdit);
     };
 
     const handleShowModal = (modalName) => {
@@ -50,6 +49,10 @@ const BookArea = (props) => {
         }
     };
 
+    const handleShowModalEditBook = (bookEdit) => {
+        setShowModalEditBook(true);
+        setDataEditBook(bookEdit);
+    };
     const handleAddNewBookSucceed = (newListBooks) => {
         // alert("handleAddNewBookSucceed");
         console.log(">>> handleAddNewBookSucceed: ", newListBooks);
@@ -68,6 +71,11 @@ const BookArea = (props) => {
     const handleChangeTypeView = (typeView) => {
         fetchData(typeView);
         setTypeView(typeView);
+    };
+
+    const handleViewBookDetail = (item) => {
+        setBookDetail(item);
+        setShowModalViewBookDetail(true);
     };
 
     const fetchData = async (type) => {
@@ -98,7 +106,6 @@ const BookArea = (props) => {
                 console.log(err);
             });
     };
-
     useEffect(() => {
         const fetchData = async () => {
             await axios({
@@ -127,16 +134,11 @@ const BookArea = (props) => {
     return (
         <>
             {showModalAddNewBook && (
-                // <ModalAddNewBook
-                //     isSucceed={handleAddNewBookSucceed}
-                //     isClose={handleCloseModal}
-                // />
                 <ModalBook
                     type="ADD_NEW_BOOK"
                     title="Thêm sách"
                     isSucceed={handleAddNewBookSucceed}
                     isClose={handleCloseModal}
-                    // data={dataEditBook}
                 />
             )}
 
@@ -147,6 +149,14 @@ const BookArea = (props) => {
                     isSucceed={handleEditBookSucceed}
                     isClose={handleCloseModal}
                     data={dataEditBook}
+                />
+            )}
+
+            {showModalViewBookDetail && (
+                <ModalViewBookDetail
+                    bookDetail={bookDetail}
+                    isClose={() => setShowModalViewBookDetail(false)}
+                    editBook={() => handleShowModalEditBook(bookDetail)}
                 />
             )}
 
@@ -198,7 +208,7 @@ const BookArea = (props) => {
                                     >
                                         Tất cả
                                     </button>
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className={
                                             "btn btn-primary " +
@@ -210,20 +220,7 @@ const BookArea = (props) => {
                                         }
                                     >
                                         Đang mượn
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={
-                                            "btn btn-primary " +
-                                            (typeView === "remaining" &&
-                                                "active")
-                                        }
-                                        onClick={() =>
-                                            handleChangeTypeView("remaining")
-                                        }
-                                    >
-                                        Hiện còn
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
 
@@ -268,7 +265,14 @@ const BookArea = (props) => {
                                                     </td>
                                                     <td>{item.soluong}</td>
                                                     <td>
-                                                        <button className="btn btn-sm btn-success m-1">
+                                                        <button
+                                                            className="btn btn-sm btn-success m-1"
+                                                            onClick={() =>
+                                                                handleViewBookDetail(
+                                                                    item
+                                                                )
+                                                            }
+                                                        >
                                                             <i className="fas fa-eye"></i>
                                                         </button>
                                                         <button
@@ -281,9 +285,6 @@ const BookArea = (props) => {
                                                         >
                                                             <i className="fas fa-pen"></i>
                                                         </button>
-                                                        {/* <button className="btn btn-sm btn-danger m-1">
-                                                            <i className="fas fa-trash-alt"></i>
-                                                        </button> */}
                                                     </td>
                                                 </tr>
                                             ))}
