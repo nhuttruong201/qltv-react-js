@@ -82,26 +82,13 @@ const SideBar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/accounts"
-                    exact={true}
-                    className="nav-item"
-                    activeClassName="active"
-                >
-                    <span className="nav-link">
-                        <i className="fas fa-user mr-3"></i>
-                        <span className="menu-title">Quản lý tài khoản</span>
-                        <i className="fas fa-angle-right ml-auto"></i>
-                    </span>
-                </NavLink>
-
-                <NavLink
                     to="/staffs"
                     exact={true}
                     className="nav-item"
                     activeClassName="active"
                 >
                     <span className="nav-link">
-                        <i className="fas fa-user-tie mr-3"></i>
+                        <i className="fas fa-user mr-3"></i>
                         <span className="menu-title">Quản lý nhân viên</span>
                         <i className="fas fa-angle-right ml-auto"></i>
                     </span>

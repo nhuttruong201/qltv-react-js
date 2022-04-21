@@ -4,14 +4,16 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import BillArea from "./components/bills/BillArea";
 import BookArea from "./components/books/BookArea";
 import AuthorArea from "./components/authors/AuthorArea";
-import ReadersArea from "./components/readers/ReaderArea";
-import MuonSach from "./components/books/MuonSach";
-import TraSach from "./components/books/TraSach";
 import CategoryArea from "./components/categories/CategoryArea";
 import PublisherArea from "./components/publishers/publisherArea";
 
+import ReadersArea from "./components/readers/ReaderArea";
+import MuonSach from "./components/books/MuonSach";
+import TraSach from "./components/books/TraSach";
+
 import Login from "./components/views/auth/Login";
 import MainContainer from "./components/views/MainContainer";
+import StaffArea from "./components/staff/StaffArea";
 
 function App(props) {
     return (
@@ -85,6 +87,18 @@ function App(props) {
                         render={() =>
                             props.isLoggedIn ? (
                                 <TraSach />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+
+                    <Route
+                        exact
+                        path="/staffs"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <StaffArea />
                             ) : (
                                 <Redirect to={"/login"} />
                             )
