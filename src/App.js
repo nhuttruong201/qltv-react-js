@@ -10,6 +10,7 @@ import TraSach from "./components/books/TraSach";
 
 import Login from "./components/views/auth/Login";
 import MainContainer from "./components/views/MainContainer";
+import StaffArea from "./components/staff/StaffArea";
 
 function App(props) {
     return (
@@ -83,6 +84,18 @@ function App(props) {
                         render={() =>
                             props.isLoggedIn ? (
                                 <TraSach />
+                            ) : (
+                                <Redirect to={"/login"} />
+                            )
+                        }
+                    />
+
+                    <Route
+                        exact
+                        path="/staffs"
+                        render={() =>
+                            props.isLoggedIn ? (
+                                <StaffArea />
                             ) : (
                                 <Redirect to={"/login"} />
                             )
